@@ -6,8 +6,8 @@
 
 <br>
 <div class="card">
-  <h5 class="card-header">Restaurant Info</h5>
-  {% if restaurant.logo %}
+  <h5 class="card-header">Profile</h5>
+  {% if profile.logo %}
     <img class="card-img-top" src="{{restaurant.logo.url}}" alt="Hey Noob, look at me...">
   {% endif %}
   <div class="card-body">
@@ -30,15 +30,19 @@
   </ul>
   <div class="card-body">
     <div class="row text-center">
-        <div class="col-md-4">
-            <a href="{% url 'restaurant-update' restaurant.id %}" class="btn btn-outline-primary btn-block">Update</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{% url 'restaurant-delete' restaurant.id %}" class="btn btn-outline-danger btn-block">Delete</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{% url 'item-create' restaurant.id %}" class="btn btn-outline-success btn-block">Add Item</a>
-        </div>
+      {% if request.user.is_staff %}
+      <div class="col-md-4">
+          <a href="{% url 'profile-delete' profile.id %}" class="btn btn-outline-danger btn-block">Delete</a>
+      </div>
+      {% endif %}
+      {% if request.user.is_customer or profie.owner == user.request %}
+      <div class="col-md-4">
+        <a href="{% url 'profile-update' profile.id %}" class="btn btn-outline-primary btn-block">Update</a>
+      </div>
+      <div class="col-md-4">
+          <a href="{% url 'profile-create' profile.id %}" class="btn btn-outline-success btn-block">Add</a>
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>
